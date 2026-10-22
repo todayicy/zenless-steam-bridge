@@ -1,0 +1,66 @@
+Validation — Zenless Steam Bridge 0.2.2
+
+Reported behavior: the manager showed an enabled installation, but starting
+Steam ZZZ opened the official launcher without displaying the game cards.
+
+Confirmed implementation gap in 0.2.1:
+- Enabling only wrote the synthetic app manifest and copied the frontend.
+- Existing per-account LaunchOptions were neither changed nor verified.
+- The manager trusted installation.Phase rather than checking launch routing.
+The user's exact Steam command before this fix is not available. This build
+addresses the routing gap; it does not claim the user's machine was inspected.
+
+Changes:
+- Backup the logged-in account's localconfig.vdf and change only ZZZ's
+  LaunchOptions to a quoted stable selector EXE followed by literal %command%.
+- Do not execute the official launcher command passed as frontend arguments.
+- Verify the written launch option, component hashes, marker and app manifest.
+- Repair an enabled old version in place, retaining the original uninstall
+  backups. Roll back both components and launch settings if repair fails.
+- Restore only our launch option, preserving unrelated settings and any launch
+  option the user subsequently changes themselves.
+- Record frontend entry and export targeted diagnostics, excluding full Steam
+  account configuration.
+- Set the 96-DPI design baseline, use automatic row sizing and a scrollable
+  manager layout.
+
+Verification performed in this environment:
+PASS: build against Microsoft's official .NET Framework 4.8 reference assemblies
+      with -noconfig / -nostdlib+; no Mono implementation references.
+PASS: IL API audit on BOTH binaries: two Char[] String.Split calls per binary,
+      no incompatible Char/StringSplitOptions call sites.
+PASS: 128 portable core checks, including active-account routing, spaces and
+      Unicode paths, lossless scalar edits, unrelated settings, UTF-8 BOM and
+      UTF-16, malformed/duplicate keys, write races, update/rollback/original
+      restore, account switches, replaced payload detection, and old-state
+      repair reporting, plus existing install and dual-target dispatch checks.
+PASS: 7 embedded frontend/license/artwork checks. Manager's embedded frontend
+      exactly matches the separately built frontend.
+PASS: 23 UI checks under Mono + Xvfb: both card selections, disabled states,
+      cancellation, and content/button layout at 100%, 150%, 200% font sizes.
+      Font-size checks are simulations, not native Windows DPI validation.
+PASS: rendered selector and manager visually inspected.
+PASS: native PE x64 GUI format; embedded UAC manifests manager=requireAdministrator,
+      frontend=asInvoker; native manifest version 0.2.2.0 and DPI awareness.
+PASS: ZIP CRC and packaged manager byte comparison.
+
+Reference package:
+Microsoft.NETFramework.ReferenceAssemblies.net48 1.0.3 (Microsoft)
+https://www.nuget.org/packages/Microsoft.NETFramework.ReferenceAssemblies.net48/1.0.3
+SHA256: 8a7e348538e7eb91351696911689f49e3d4f63f8bab517432bbe159b8b1104a2
+
+Windows launch-option pattern reference (primary source):
+https://github.com/Pathoschild/SMAPI/blob/develop/src/SMAPI.Installer/InteractiveInstaller.cs
+Windows Forms scaling reference:
+https://learn.microsoft.com/dotnet/api/system.windows.forms.containercontrol.autoscaledimensions
+
+Not performed: native Windows .NET Framework execution or Windows + Steam +
+real ZZZ/Star Rail end-to-end testing. Actual Steam wrapper execution, real game
+startup, playtime, overlay, screenshots and Stop behavior require the user's
+machine. File verification and portable tests do not establish those results.
+
+Upgrade: exit games, run 0.2.2 manager as administrator, click Repair Launch
+Entry (修复启动入口), wait for Steam restart, then play ZZZ from Steam.
+If the official launcher still appears, export diagnostics from the manager;
+the actual launch option and last frontend entry distinguish routing failures
+from failures after the selector runs.

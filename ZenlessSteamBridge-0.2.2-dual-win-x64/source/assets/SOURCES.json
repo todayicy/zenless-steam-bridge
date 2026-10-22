@@ -1,0 +1,24 @@
+[
+  {
+    "game": "绝区零",
+    "file": "zenless.png",
+    "source": "米哈游启动器官方公开游戏展示接口",
+    "source_api": "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGames?launcher_id=jGHBHlcOq1&language=zh-cn",
+    "original_url": "https://launcher-webstatic.mihoyo.com/launcher-public/2026/10/15/bca19f05a213ae991b0e45a8e83b391a_4777448468433556029.webp",
+    "retrieved_date": "2026-10-22",
+    "copyright": "miHoYo / HoYoverse and respective rights holders",
+    "preparation": "Lossless WebP-to-PNG transcode for .NET Framework System.Drawing compatibility; no composition or artwork edits.",
+    "sha256": "1c5357aaa455b64af55f306fbb3c3fa740a778f426dce975e123a1d264897c71"
+  },
+  {
+    "game": "崩坏：星穹铁道",
+    "file": "starrail.png",
+    "source": "米哈游启动器官方公开游戏展示接口",
+    "source_api": "https://hyp-api.mihoyo.com/hyp/hyp-connect/api/getGames?launcher_id=jGHBHlcOq1&language=zh-cn",
+    "original_url": "https://launcher-webstatic.mihoyo.com/launcher-public/2026/09/21/94b346207176750fb5ff12cd0bd8d108_7038317262925250274.webp",
+    "retrieved_date": "2026-10-22",
+    "copyright": "miHoYo / HoYoverse and respective rights holders",
+    "preparation": "Lossless WebP-to-PNG transcode for .NET Framework System.Drawing compatibility; no composition or artwork edits.",
+    "sha256": "b6b12f9d1fe2cf4f1159e6f82e0d63cf6175f3465ceb36fa2721c165dbeee29b"
+  }
+]
